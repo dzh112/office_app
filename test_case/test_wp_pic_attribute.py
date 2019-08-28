@@ -67,7 +67,7 @@ class TestWordPictureAttrbute(StartEnd):
         logging.info('==========test_wp_pic_surround==========')
         self.choose_pic_setup()
         wp = WpView(self.driver)
-        wp.surround()
+        wp.surround('picture')
         time.sleep(10)
 
     def test_wp_pic_layer(self):
