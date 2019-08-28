@@ -15,6 +15,8 @@ class TestWordEditOption(StartEnd):
         logging.info('==========test_wp_fonts==========')
         ov = OpenView(self.driver)
         ov.open_file('欢迎使用永中Office.docx')
+        gv = GeneralView(self.driver)
+        gv.switch_write_read()
         wv = WpView(self.driver)
         wv.switch_option('编辑')
         s = ov.get_size()
