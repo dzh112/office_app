@@ -7,9 +7,11 @@ from businessView.generalView import GeneralView
 from businessView.openView import OpenView
 from businessView.wpView import WpView
 from common.myunit import StartEnd
+from airtest.core.api import *
 
 
 class TestWordEditOption(StartEnd):
+
     def test_wp_text_select(self):
         # 文本选取
         logging.info('==========test_wp_fonts==========')
@@ -17,11 +19,12 @@ class TestWordEditOption(StartEnd):
         ov.open_file('欢迎使用永中Office.docx')
         gv = GeneralView(self.driver)
         gv.switch_write_read()
-        wv = WpView(self.driver)
-        wv.switch_option('编辑')
         s = ov.get_size()
         action = TouchAction(self.driver)
-        action.long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).move_to(x=s[0] * 0.6, y=s[1] * 0.5).release().perform()
+        action.long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).release().perform()
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+        touch(Template(r'../Res/res_select.png', resolution=(1080, 1920)))
+        # action.long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).move_to(x=s[0] * 0.6, y=s[1] * 0.5).release().perform()
 
     def test_wp_fonts(self):
         # 遍历字体列表
@@ -85,3 +88,23 @@ class TestWordEditOption(StartEnd):
         self.test_wp_text_select()
         wv = WpView(self.driver)
         wv.line_space_size()
+
+    def test_wp_text_copy_cut_paste(self):
+        self.test_wp_text_select()
+        ov = OpenView(self.driver)
+        s = ov.get_size()
+        action = TouchAction(self.driver)
+        touch(Template(r'../Res/res_copy.png', resolution=(1080, 1920)))
+        action.long_press(x=s[0] * 0.5, y=s[1] * 0.3).wait(1000).release().perform()
+        touch(Template(r'../Res/res_paste.png', resolution=(1080, 1920)))
+        time.sleep(10)
+        action.long_press(x=s[0] * 0.5, y=s[1] * 0.3).wait(1000).release().perform()
+        touch(Template(r'../Res/res_select.png', resolution=(1080, 1920)))
+        touch(Template(r'../Res/res_cut.png', resolution=(1080, 1920)))
+        action.long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).release().perform()
+        touch(Template(r'../Res/res_paste.png', resolution=(1080, 1920)))
+        time.sleep(10)
+
+
+
+
