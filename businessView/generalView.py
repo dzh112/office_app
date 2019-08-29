@@ -22,15 +22,16 @@ class GeneralView(Common):
 
     def shape_insert(self, type, index=0, s_index=0):  # 通用插入
         logging.info('======insert_shape======')
-        self.driver.find_element(By.XPATH,'//*[@resource-id="com.yozo.office:id/yozo_ui_%s_option_id_shape_insert"]'
-                                 '/android.widget.FrameLayout[%s]' % (type, index)).click()
+        self.driver.find_element(By.XPATH, '//*[@resource-id="com.yozo.office:id/yozo_ui_%s_option_id_shape_insert"]'
+                                           '/android.widget.FrameLayout[%s]' % (type, index)).click()
         if index >= 6:
             eleA = '//*[@text="最近使用"]'
             eleB = '//*[@text="基本形状"]'
             if self.get_element_result(eleA):
                 self.swipe_ele(eleB, eleA)
-            eles = self.driver.find_elements(By.XPATH,'//*[@resource-id="com.yozo.office:id/yozo_ui_option_id_more_shape'
-                                                      '_main_container"]/android.widget.FrameLayout')
+            eles = self.driver.find_elements(By.XPATH,
+                                             '//*[@resource-id="com.yozo.office:id/yozo_ui_option_id_more_shape'
+                                             '_main_container"]/android.widget.FrameLayout')
             if len(eles) < s_index:
                 time.sleep(0.5)
                 self.swipe_ele1(eles[-1], eles[0])
@@ -388,3 +389,9 @@ class GeneralView(Common):
         result1 = self.compare_pic('before_undo.png', 'after_undo.png')
         result2 = self.compare_pic('before_redo.png', 'after_redo.png')
         return result1, result2
+
+    def check_wp_undo(self):
+        return self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_option_group_button').text == '编辑'
+
+    def check_wp_redo(self):
+        return self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_option_group_button').text == '形状'
