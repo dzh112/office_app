@@ -254,17 +254,26 @@ class WpView(Common):
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_wp_option_id_revision_reject').click()
 
     def choose_pic(self):
+        global a
         x = self.get_size()[0]
         y = self.get_size()[1]
-        for i in range(2, 8):
-            self.tap(int(x * 0.5), int(y * (i / 10)))
-            if self.exist("//*[@resource-id='com.yozo.office:id/yozo_ui_quick_option_wp_picture_surround']"):
+        for i in range(1, 8):
+            self.tap(x * 0.5, y * (i / 10))
+            time.sleep(0.5)
+            # if self.exist("//*[@resource-id='com.yozo.office:id/yozo_ui_quick_option_wp_picture_surround']"):
+            if self.driver.find_element(*self.option_group_button).text == '图片':
+                a = x * 0.5, y * (i / 10)
                 break
+        return a
 
     def surround(self, type='picture'):
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_quick_option_wp_%s_surround' % type).click()
         for i in ['嵌入型', '四周型', '紧密型', '衬于文字下方', '浮于文字上方']:
             self.driver.find_element(By.XPATH, "//*[@text='%s']" % i).click()
+
+    def surround_peripheral(self, type='picture'):
+        self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_quick_option_wp_%s_surround' % type).click()
+        self.driver.find_element(By.XPATH, "//*[@text='四周型']").click()
 
     def pic_fixed_rotate(self):
         s1 = self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_wp_option_id_picture_edit')
@@ -434,7 +443,7 @@ class WpView(Common):
 
     def pic_layer(self):
         # 设置图片叠放次序
-        self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_quick_option_wp_picture_border').click()
+        self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_quick_option_wp_picture_layer').click()
         for i in ['上移一层', '下移一层', '置于顶层', '置于底层']:
             self.driver.find_element(By.XPATH, "//*[@text='%s']" % i).click()
 
