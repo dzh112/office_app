@@ -4,6 +4,7 @@ from businessView.generalView import GeneralView
 from businessView.openView import OpenView
 from businessView.wpView import WpView
 from common.myunit import StartEnd
+from airtest.core.api import *
 
 
 class TestWordShapeAttrbute(StartEnd):
@@ -15,6 +16,84 @@ class TestWordShapeAttrbute(StartEnd):
         wp = WpView(self.driver)
         wp.switch_option('插入')
         wp.insert_text_box()
+
+    def test_wp_shape_copy_paste(self):
+        # 形状复制粘贴
+        logging.info('==========test_wp_shape_copy_paste==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+
+        wp.object_copy_paste()
+        time.sleep(10)
+
+    def test_wp_shape_cut_paste(self):
+        # 形状剪切粘贴
+        logging.info('==========test_wp_shape_cut_paste==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+
+        wp.object_cut_paste()
+        time.sleep(10)
+
+    def test_wp_shape_delete(self):
+        # 形状 删除
+        logging.info('==========test_wp_shape_delete==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+
+        wp.object_delete()
+        time.sleep(10)
+
+    def test_wp_shape_rotate_90(self):
+        # 形状旋转90度
+        logging.info('==========test_wp_shape_rotate_90==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+
+        wp.object_rotate_90()
+        time.sleep(10)
+
+    def test_wp_shape_free_rotate(self):
+        # 形状自由旋转
+        logging.info('==========test_wp_shape_free_rotate==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+
+        wp.object_free_rotate()
+        time.sleep(10)
+
+    def test_wp_shape_control_point(self):
+        # 手势拖拉形状控制点
+        logging.info('==========test_wp_shape_control_point==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+
+        wp.shape_control_point()
+        time.sleep(10)
+
+    def test_wp_shape_text_select(self):
+        # 文本框内容选取
+        logging.info('==========test_wp_shape_text_select==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+        wp.text_box_text_select()
+        self.assertTrue(exists(Template(r'../Res/res_delete.png', resolution=(1080, 1920))))
+
+    def test_wp_shape_move(self):
+        # 文本框移动
+        logging.info('==========test_wp_shape_move==========')
+        self.shapeatt_setup()
+        wp = WpView(self.driver)
+        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+        wp.text_box_move()
+        time.sleep(10)
 
     def test_wp_shape_fixed_rotate(self):
         # 形状旋转
