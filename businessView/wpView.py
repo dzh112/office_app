@@ -8,6 +8,8 @@ from common.common_fun import Common
 from selenium.webdriver.common.by import By
 from airtest.core.api import *
 
+ST.THRESHOLD = 0.3
+
 
 class WpView(Common):
     self_adaption_icon = (By.ID, 'com.yozo.office:id/yozo_ui_quick_option_wp_read_full_screen')
@@ -60,8 +62,10 @@ class WpView(Common):
         self.driver.find_element(*self.bookmark_name_edit).send_keys("file")
         self.driver.find_element(*self.bookmark_sure_btn).click()
         insert_result = self.exist("//*[@text='添加书签成功']")
-        self.driver.find_element(*self.option_expand_button).click()
+        self.switch_option('查看')
+
         self.driver.find_element(*self.bookmark_catalog).click()
+
         catalog_result = self.exist('//android.widget.TextView[@text="file"]')
         self.driver.find_element(By.XPATH, '//android.widget.TextView[@text="file"]').click()
         return insert_result and catalog_result
@@ -101,7 +105,7 @@ class WpView(Common):
                 break
         while True:
             self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_number_picker_arrow_right').click()
-            if int(size1.find_elements(By.XPATH, "//*[@class='android.widget.TextView']")[-1].text) == 50:
+            if int(size1.find_elements(By.XPATH, "//*[@class='android.widget.TextView']")[-1].text) == 72:
                 for i in range(4):
                     self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_number_picker_arrow_right').click()
                 break
@@ -179,15 +183,19 @@ class WpView(Common):
         s2.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[-1].click()
         s3 = self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_option_id_more_shape_main_container')
         # 42种常用的基本形状
-        for i in s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[:18]:
-            i.click()
-        self.driver.scroll(s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[-1],
-                           s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[0])
-        for i in s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']"):
-            i.click()
+
+        # 18种常用的基本形状
+        for i in range(18):
+            s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[i].click()
         # 记录最近使用的6种自选图形
         s4 = self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_option_id_more_shape_sub_container')
-        for i in s4.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']"):
+        for i in range(6):
+            s4.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[i].click()
+        # 向上滑动
+        self.driver.scroll(s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[-1],
+                           s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[0])
+        # 24种常用的基本形状
+        for i in s3.find_elements(By.XPATH, "//*[@class='android.widget.ImageView']")[12:]:
             i.click()
 
     def insert_table(self):
@@ -231,19 +239,19 @@ class WpView(Common):
         s1 = self.driver.find_element(By.ID, 'com.yozo.office:id/rg_water_mark')
         s1.find_elements(By.XPATH, "//*[@class='android.widget.RadioButton']")[0].click()
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_full_screen_base_dialog_id_ok').click()
-        self.driver.find_element(*self.option_expand_button).click()
+        # self.driver.find_element(*self.option_expand_button).click()
         '''删除水印'''
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_wp_option_id_insert_watermark').click()
         self.driver.find_element(By.XPATH, "//*[@text='删除文档中的水印']").click()
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_full_screen_base_dialog_id_ok').click()
-        self.driver.find_element(*self.option_expand_button).click()
+        # self.driver.find_element(*self.option_expand_button).click()
         '''水平水印'''
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_wp_option_id_insert_watermark').click()
         self.driver.find_element(By.ID, 'com.yozo.office:id/et_water_mark').send_keys('水平')
         s1 = self.driver.find_element(By.ID, 'com.yozo.office:id/rg_water_mark')
         s1.find_elements(By.XPATH, "//*[@class='android.widget.RadioButton']")[1].click()
         self.driver.find_element(By.ID, 'com.yozo.office:id/yozo_ui_full_screen_base_dialog_id_ok').click()
-        self.driver.find_element(*self.option_expand_button).click()
+        # self.driver.find_element(*self.option_expand_button).click()
 
     def check_approve_revision(self):
         # 更改用户名
@@ -458,58 +466,67 @@ class WpView(Common):
             self.driver.find_element(By.XPATH, "//*[@text='%s']" % i).click()
 
     res_object = r'../Res/res_object.png'
+    res_shape = r'../Res/res_shape.png'
     res_copy = r'../Res/res_copy.png'
     res_cut = r'../Res/res_cut.png'
     res_paste = r'../Res/res_paste.png'
     res_rotate_90 = r'../Res/res_rotate_90.png'
     res_delete = r'../Res/res_delete.png'
     res_save_to_album = r'../Res/res_save_to_album.png'
-    res_pic_control_point = r'../Res/res_pic_control_point.png'
-    res_shape_control_point = r'../Res/res_shape_control_point.png'
+
     res_shape_edit_text = r'../Res/res_shape_edit_text.png'
     res_water_drop = r'../Res/res_water_drop.png'
     res_all_select = r'../Res/res_all_select.png'
     res_text_box_pos = r'../Res/res_text_box_pos.png'
 
     def adjust_object_place(self):
-        while not exists(Template(self.res_object, resolution=(1080, 1920))):
+        while not exists(Template(r'../Res/res_pop.png', resolution=(1080, 1920))):
             swipe([20, 500], [20, 800])
+
+    def object_pop_show(self):
+        if exists(Template(self.res_object, target_pos=2, resolution=(1080, 1920))):
+            touch(Template(self.res_object, target_pos=2, resolution=(1080, 1920)))
+        elif exists((Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))):
+            touch(Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))
 
     def object_copy_paste(self):
         # 对象复制、粘贴
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        self.object_pop_show()
         touch(Template(self.res_copy, resolution=(1080, 1920)))
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        self.object_pop_show()
         touch(Template(self.res_paste, resolution=(1080, 1920)))
         time.sleep(10)
 
     def object_cut_paste(self):
         # 对象剪切、粘贴
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        self.object_pop_show()
         touch(Template(self.res_cut, resolution=(1080, 1920)))
         s = self.get_size()
         TouchAction(self.driver).long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).release().perform()
-        touch(Template(self.res_object, resolution=(1080, 1920)))
         touch(Template(self.res_paste, resolution=(1080, 1920)))
         time.sleep(10)
 
     def object_delete(self):
         # 对象删除
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        self.object_pop_show()
+        swipe(Template(self.res_rotate_90, resolution=(1080, 1920)), Template(self.res_cut, resolution=(1080, 1920)))
         touch(Template(self.res_delete, resolution=(1080, 1920)))
 
     def object_rotate_90(self):
         # 对象旋转90度
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        self.object_pop_show()
         touch(Template(self.res_rotate_90, resolution=(1080, 1920)))
 
     def object_free_rotate(self):
         # 对象自由旋转
-        swipe(Template(self.res_object, resolution=(1080, 1920)), (0, 1920))
+        if exists(Template(self.res_object, target_pos=2, resolution=(1080, 1920))):
+            swipe(Template(self.res_object, target_pos=2, resolution=(1080, 1920)), (0, 1920))
+        elif exists((Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))):
+            swipe(Template(self.res_shape, target_pos=2, resolution=(1080, 1920)), (0, 1920))
 
     def text_box_text_select(self):
         # 文本框文本内容选取
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        touch(Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))
         touch(Template(self.res_shape_edit_text, resolution=(1080, 1920)))
         text('0000', enter=False)
         touch(Template(self.res_water_drop, resolution=(1080, 1920)))
@@ -520,13 +537,15 @@ class WpView(Common):
 
     def pic_control_point(self):
         # 拖拉图片控制点
-        swipe(Template(self.res_pic_control_point, resolution=(1080, 1920)), (500, 1000))
+        swipe(Template(self.res_object, target_pos=8, resolution=(1080, 1920)), (500, 1000))
 
     def shape_control_point(self):
         # 拖拉形状控制点
-        swipe(Template(self.res_shape_control_point, resolution=(1080, 1920)), (500, 1000))
+        swipe(Template(self.res_shape, target_pos=8, resolution=(1080, 1920)), (500, 1000))
 
     def pic_save_to_album(self):
         # 保存图片到相册
-        touch(Template(self.res_object, resolution=(1080, 1920)))
+        touch(Template(self.res_object, target_pos=2, resolution=(1080, 1920)))
+        swipe(Template(self.res_rotate_90, resolution=(1080, 1920)), Template(self.res_cut, resolution=(1080, 1920)))
         touch(Template(self.res_save_to_album, resolution=(1080, 1920)))
+
