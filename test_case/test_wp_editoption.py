@@ -31,6 +31,7 @@ class TestWordEditOption(StartEnd):
         logging.info('==========test_wp_fonts==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.fonts_list()
 
     def test_wp_fonts_size(self):
@@ -38,6 +39,7 @@ class TestWordEditOption(StartEnd):
         logging.info('==========test_wp_fonts_size==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.fonts_size_list()
 
     def test_wp_fonts_effect(self):
@@ -45,6 +47,7 @@ class TestWordEditOption(StartEnd):
         logging.info('==========test_wp_fonts_effect==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.fonts_effect()
 
     def test_wp_fonts_color(self):
@@ -52,20 +55,24 @@ class TestWordEditOption(StartEnd):
         logging.info('==========test_wp_fonts_color==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.fonts_color()
 
     def test_wp_fonts_high_light(self):
         # 设置字体高亮
         logging.info('==========test_wp_fonts_high_light==========')
         self.test_wp_text_select()
-        wcv = WpView(self.driver)
-        wcv.fonts_high_light()
+        wv = WpView(self.driver)
+        wv.switch_option('编辑')
+        wv.fonts_high_light()
+
 
     def test_wp_fonts_bullet(self):
         # 设置字体项目符号
         logging.info('==========test_wp_fonts_bullet==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.fonts_bullet()
 
     def test_wp_fonts_align_indent(self):
@@ -73,20 +80,23 @@ class TestWordEditOption(StartEnd):
         logging.info('==========test_wp_fonts_align_indent==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.align_indent()
 
     def test_wp_fonts_column(self):
         # 设置分栏
         logging.info('==========test_wp_fonts_column==========')
         self.test_wp_text_select()
-        wcv = WpView(self.driver)
-        wcv.column()
+        wv = WpView(self.driver)
+        wv.switch_option('编辑')
+        wv.column()
 
     def test_wp_line_space_size(self):
         # 多倍行距
         logging.info('==========test_wp_line_space_size==========')
         self.test_wp_text_select()
         wv = WpView(self.driver)
+        wv.switch_option('编辑')
         wv.line_space_size()
 
     def test_wp_text_copy_cut_paste(self):
