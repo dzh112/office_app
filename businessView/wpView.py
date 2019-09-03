@@ -465,87 +465,94 @@ class WpView(Common):
         for i in ['上移一层', '下移一层', '置于顶层', '置于底层']:
             self.driver.find_element(By.XPATH, "//*[@text='%s']" % i).click()
 
-    res_object = r'../Res/res_object.png'
-    res_shape = r'../Res/res_shape.png'
-    res_copy = r'../Res/res_copy.png'
-    res_cut = r'../Res/res_cut.png'
-    res_paste = r'../Res/res_paste.png'
-    res_rotate_90 = r'../Res/res_rotate_90.png'
-    res_delete = r'../Res/res_delete.png'
-    res_save_to_album = r'../Res/res_save_to_album.png'
-
-    res_shape_edit_text = r'../Res/res_shape_edit_text.png'
-    res_water_drop = r'../Res/res_water_drop.png'
-    res_all_select = r'../Res/res_all_select.png'
-    res_text_box_pos = r'../Res/res_text_box_pos.png'
+    T_res_pop_5 = Template(r'../Res/res_pop.png', resolution=(1080, 1920))
+    T_res_object_2 = Template(r'../Res/res_object.png', target_pos=2, resolution=(1080, 1920))
+    T_res_object_8 = Template(r'../Res/res_object.png', target_pos=8, resolution=(1080, 1920))
+    T_res_shape_2 = Template(r'../Res/res_shape.png', target_pos=2, resolution=(1080, 1920))
+    T_res_shape_8 = Template(r'../Res/res_shape.png', target_pos=8, resolution=(1080, 1920))
+    T_res_cut_5 = Template(r'../Res/res_cut.png', resolution=(1080, 1920))
+    T_res_copy_5 = Template(r'../Res/res_copy.png', resolution=(1080, 1920))
+    T_res_paste_5 = Template(r'../Res/res_paste.png', resolution=(1080, 1920))
+    T_res_delete_5 = Template(r'../Res/res_delete.png', resolution=(1080, 1920))
+    T_res_rotate_90_5 = Template(r'../Res/res_rotate_90.png', resolution=(1080, 1920))
+    T_res_shape_edit_text_5 = Template(r'../Res/res_shape_edit_text.png', resolution=(1080, 1920))
+    T_res_water_drop_5 = Template(r'../Res/res_water_drop.png', resolution=(1080, 1920))
+    T_res_all_select_5 = Template(r'../Res/res_all_select.png', resolution=(1080, 1920))
+    T_res_text_box_pos_5 = Template(r'../Res/res_text_box_pos.png', resolution=(1080, 1920))
+    T_res_save_to_album_5 = Template(r'../Res/res_save_to_album.png', resolution=(1080, 1920))
 
     def adjust_object_place(self):
-        while not exists(Template(r'../Res/res_pop.png', resolution=(1080, 1920))):
+        while not exists(self.T_res_pop_5):
             swipe([20, 500], [20, 800])
 
     def object_pop_show(self):
-        if exists(Template(self.res_object, target_pos=2, resolution=(1080, 1920))):
-            touch(Template(self.res_object, target_pos=2, resolution=(1080, 1920)))
-        elif exists((Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))):
-            touch(Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))
+        try:
+            if exists(self.T_res_object_2):
+                touch(self.T_res_object_2)
+            elif exists(self.T_res_shape_2):
+                touch(self.T_res_shape_2)
+        except:
+            touch(self.T_res_pop_5)
 
     def object_copy_paste(self):
         # 对象复制、粘贴
         self.object_pop_show()
-        touch(Template(self.res_copy, resolution=(1080, 1920)))
+        touch(self.T_res_copy_5)
         self.object_pop_show()
-        touch(Template(self.res_paste, resolution=(1080, 1920)))
+        touch(self.T_res_paste_5)
         time.sleep(10)
 
     def object_cut_paste(self):
         # 对象剪切、粘贴
         self.object_pop_show()
-        touch(Template(self.res_cut, resolution=(1080, 1920)))
+        touch(self.T_res_cut_5)
         s = self.get_size()
         TouchAction(self.driver).long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).release().perform()
-        touch(Template(self.res_paste, resolution=(1080, 1920)))
+        touch(self.T_res_paste_5)
         time.sleep(10)
 
     def object_delete(self):
         # 对象删除
         self.object_pop_show()
-        swipe(Template(self.res_rotate_90, resolution=(1080, 1920)), Template(self.res_cut, resolution=(1080, 1920)))
-        touch(Template(self.res_delete, resolution=(1080, 1920)))
+        if not exists(self.T_res_delete_5):
+            swipe(self.T_res_rotate_90_5, self.T_res_cut_5)
+        touch(self.T_res_delete_5)
 
     def object_rotate_90(self):
         # 对象旋转90度
         self.object_pop_show()
-        touch(Template(self.res_rotate_90, resolution=(1080, 1920)))
+        touch(self.T_res_rotate_90_5)
 
     def object_free_rotate(self):
         # 对象自由旋转
-        if exists(Template(self.res_object, target_pos=2, resolution=(1080, 1920))):
-            swipe(Template(self.res_object, target_pos=2, resolution=(1080, 1920)), (0, 1920))
-        elif exists((Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))):
-            swipe(Template(self.res_shape, target_pos=2, resolution=(1080, 1920)), (0, 1920))
+        if exists(self.T_res_object_2):
+            swipe(self.T_res_object_2, (0, 1920))
+        elif exists(self.T_res_shape_2):
+            swipe(self.T_res_shape_2, (0, 1920))
 
     def text_box_text_select(self):
         # 文本框文本内容选取
-        touch(Template(self.res_shape, target_pos=2, resolution=(1080, 1920)))
-        touch(Template(self.res_shape_edit_text, resolution=(1080, 1920)))
+        touch(self.T_res_shape_2)
+        touch(self.T_res_shape_edit_text_5)
         text('0000', enter=False)
-        touch(Template(self.res_water_drop, resolution=(1080, 1920)))
-        touch(Template(self.res_all_select, resolution=(1080, 1920)))
+        touch(self.T_res_water_drop_5)
+        touch(self.T_res_all_select_5)
 
     def text_box_move(self):
-        swipe(Template(self.res_text_box_pos, resolution=(1080, 1920)), (500, 1000))
+        swipe(self.T_res_text_box_pos_5, (500, 1000))
 
     def pic_control_point(self):
         # 拖拉图片控制点
-        swipe(Template(self.res_object, target_pos=8, resolution=(1080, 1920)), (500, 1000))
+        swipe(self.T_res_object_8, (500, 1000))
 
     def shape_control_point(self):
         # 拖拉形状控制点
-        swipe(Template(self.res_shape, target_pos=8, resolution=(1080, 1920)), (500, 1000))
+        swipe(self.T_res_shape_8, (500, 1000))
 
     def pic_save_to_album(self):
         # 保存图片到相册
-        touch(Template(self.res_object, target_pos=2, resolution=(1080, 1920)))
-        swipe(Template(self.res_rotate_90, resolution=(1080, 1920)), Template(self.res_cut, resolution=(1080, 1920)))
-        touch(Template(self.res_save_to_album, resolution=(1080, 1920)))
-
+        touch(self.T_res_object_2)
+        if not exists(self.T_res_save_to_album_5):
+            swipe(self.T_res_rotate_90_5,
+                  self.T_res_cut_5)
+        touch(self.T_res_save_to_album_5)

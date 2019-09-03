@@ -22,7 +22,7 @@ class TestWordEditOption(StartEnd):
         s = ov.get_size()
         action = TouchAction(self.driver)
         action.long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).release().perform()
-        connect_device('Android:///?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH')
+        connect_device(ov.get_phone_dev())
         touch(Template(r'../Res/res_select.png', resolution=(1080, 1920)))
         # action.long_press(x=s[0] * 0.5, y=s[1] * 0.5).wait(1000).move_to(x=s[0] * 0.6, y=s[1] * 0.5).release().perform()
 
